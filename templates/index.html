@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DeepFake Video Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 DeepFake Video Detection Dashboard</h1>
+
+        <!-- Upload section -->
+        <div class="upload-section">
+            <input type="file" id="videoFile" accept="video/*">
+            <button id="uploadBtn">Upload & Detect</button>
+        </div>
+
+        <!-- Video preview -->
+        <div class="video-section">
+            <h2>🎥 Uploaded Video</h2>
+            <video id="uploadedVideo" width="700" height="400" controls></video>
+        </div>
+
+        <!-- Live logs -->
+        <div class="log-section">
+            <h2>🧾 Frame-by-Frame Predictions</h2>
+            <textarea readonly id="logBox" class="log-box"></textarea>
+        </div>
+
+        <!-- Final result -->
+        <div id="resultSection" class="result" style="display: none;">
+            <h2 id="resultLabel"></h2>
+            <div class="progress-bar-container">
+                <div id="confidenceBar" class="progress-bar"></div>
+            </div>
+            <h3 id="confidenceText"></h3>
+        </div>
+    </div>
+
+    <script>
+    let eventSource;
+
+    document.getElementById('uploadBtn').addEventListener('click', async () => {
+        const fileInput = document.getElementById('videoFile');
+        const file = fileInput.files[0];
+        if (!file) return alert('Please select a video first!');
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const uploadResponse = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await uploadResponse.json();
+
+        if (data.video_path) {
+            document.getElementById('uploadedVideo').src = data.video_path;
+            document.getElementById('resultSection').style.display = "none";
+            startPredictionStream(data.video_path);
+        } else {
+            alert(data.error || 'Upload failed!');
+        }
+    });
+
+    function startPredictionStream(videoPath) {
+        const logBox = document.getElementById('logBox');
+        logBox.value = 'Starting live predictions...\n';
+        const resultSection = document.getElementById('resultSection');
+        const confidenceBar = document.getElementById('confidenceBar');
+        const confidenceText = document.getElementById('confidenceText');
+        const resultLabel = document.getElementById('resultLabel');
+        resultSection.style.display = "none";
+
+        if (eventSource) eventSource.close();
+
+        eventSource = new EventSource(`/predict_stream?video=${encodeURIComponent(videoPath)}`);
+
+        eventSource.onmessage = function(event) {
+            if (event.data === "DONE") {
+                logBox.value += "\n✅ Processing complete!\n";
+                eventSource.close();
+            } else if (event.data.includes("FINAL RESULT")) {
+                // Example: --- FINAL RESULT: Fake (87.45%) ---
+                const match = event.data.match(/FINAL RESULT: (\w+) \(([\d.]+)%\)/);
+                if (match) {
+                    const label = match[1];
+                    const confidence = parseFloat(match[2]);
+
+                    resultLabel.textContent = `Final Result: ${label}`;
+                    confidenceText.textContent = `Confidence: ${confidence}%`;
+                    confidenceBar.style.width = confidence + "%";
+                    confidenceBar.style.backgroundColor = label === "Fake" ? "#ff4d4d" : "#00ff99";
+                    resultSection.style.display = "block";
+                }
+            } else {
+                logBox.value += event.data + "\n";
+                logBox.scrollTop = logBox.scrollHeight;
+            }
+        };
+
+        eventSource.onerror = function() {
+            logBox.value += "\n❌ Error receiving updates.\n";
+            eventSource.close();
+        };
+    }
+    </script>
+</body>
+</html>

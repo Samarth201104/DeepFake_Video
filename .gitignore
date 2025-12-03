@@ -1,0 +1,30 @@
+# Ignore model weights
+*.h5
+*.onnx
+*.pth
+
+# Ignore datasets
+dataset/
+preprocessed/
+preprocessed_split/
+evaluation_results/
+
+# Ignore uploads
+uploads/
+static/uploads/
+
+# Ignore Python virtual environment
+venv/
+
+# Ignore temporary files
+__pycache__/
+*.pyc
+*.pkl
+*.log
+
+# Ignore VSCode
+.vscode/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
