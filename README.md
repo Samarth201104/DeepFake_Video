@@ -4,14 +4,14 @@ A machine learning project that detects deepfake videos using the Xception neura
 
 ## Project Overview
 
-This project leverages deep learning techniques to identify manipulated or artificially generated video content. It uses a pre-trained Xception model that has been fine-tuned for deepfake detection, capable of analyzing facial regions in videos to distinguish authentic footage from synthetic or manipulated content.
+This project leverages deep learning techniques to identify manipulated or artificially generated video content. It uses an Xception model trained from scratch on your deepfake dataset, capable of analyzing facial regions in videos to distinguish authentic footage from synthetic or manipulated content.
 
 ## Features
 
 - **Video Deepfake Detection**: Analyzes videos frame-by-frame to detect fake content
 - **Face Detection**: Uses RetinaFace for accurate facial region detection
 - **Web Interface**: Flask-based web application for easy video upload and analysis
-- **Pre-trained Model**: Includes `xception_best.h5` model trained on deepfake datasets
+- **Trained Model**: Includes `xception_best.h5` model trained from scratch on your deepfake dataset
 - **Data Preprocessing**: Automated pipeline for dataset preparation and augmentation
 - **Performance Evaluation**: Built-in evaluation metrics and result visualization
 
@@ -50,8 +50,9 @@ This project leverages deep learning techniques to identify manipulated or artif
 
 ### Model File
 
-- **xception_best.h5**: Pre-trained Xception model
-  - Best model from training (selected by validation accuracy)
+- **xception_best.h5**: Trained Xception model
+  - Best model checkpoint from training (selected by validation accuracy)
+  - Trained from scratch on your dataset
   - Saved in Keras H5 format
   - Ready for inference
 
@@ -232,7 +233,7 @@ Launches a Flask web application for interactive video upload and deepfake detec
 ## Model Architecture
 
 **Base Model**: Xception (Extreme Inception)
-- Pre-trained on ImageNet weights
+- Initialized with ImageNet weights (transfer learning base)
 - Depthwise separable convolutions for efficiency
 - Input: 256×256 RGB images
 - Output: Single neuron with sigmoid activation (binary classification)
@@ -244,10 +245,12 @@ Launches a Flask web application for interactive video upload and deepfake detec
 
 **Training Configuration**:
 - Last 20 layers of Xception are trainable
-- Earlier layers remain frozen to preserve ImageNet features
-- Optimized with Adam optimizer
+- Earlier layers remain frozen to preserve ImageNet features and accelerate convergence
+- Trained from scratch on your deepfake dataset
+- Optimized with Adam optimizer (lr=1e-4)
 - Uses binary crossentropy loss for binary classification
 - Implements mixed precision training for efficiency
+- Best model saved based on validation accuracy
 
 **Performance**:
 - Lightweight and efficient for real-time inference
