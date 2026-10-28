@@ -1,4 +1,6 @@
 """Flask application factory and development server entry point."""
+import logging
+
 from flask import Flask, jsonify, request, send_from_directory
 
 from .api.routes import api
@@ -10,6 +12,7 @@ FRONTEND_DIR = ROOT / "frontend"
 
 def create_app(detection_service=None):
     app = Flask(__name__)
+    app.logger.setLevel(logging.INFO)
     app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_MB * 1024 * 1024
     app.config["MAX_VIDEO_SECONDS"] = MAX_VIDEO_SECONDS
     app.extensions["detection_service"] = detection_service or DetectionService(

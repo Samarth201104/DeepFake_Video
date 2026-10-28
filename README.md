@@ -172,7 +172,7 @@ Check syntax with `python -m compileall backend scripts`. Full inference require
 
 - **Weights missing/unreadable:** place the checkpoint at the configured path and verify `/api/health`.
 - **TensorFlow import/install errors:** use Python 3.10 and a compatible TensorFlow 2.10 platform build.
-- **Video decode failures:** use a codec supported by the local OpenCV build, such as H.264 MP4.
+- **Video decode failures:** the backend tries FFmpeg, the system decoder, and Windows Media Foundation. If all fail, convert the clip to H.264 MP4. Upload start, success, and rejection summaries are written to the backend terminal without logging local file paths.
 - **No detected faces:** use a clear clip with visible faces; only sampled frames are inspected.
 - **CORS failure:** same-origin hosting is simplest. For separate hosting, match `FRONTEND_ORIGIN` exactly to the browser origin.
 - **Memory/time pressure:** lower upload/duration limits or increase `FRAME_INTERVAL`; RetinaFace and model inference may be CPU-bound.

@@ -28,7 +28,10 @@
       }
       window.ResultView.render(result);
     } catch (error) {
-      $("inlineError").textContent = `${error.message || "Could not reach the analysis API."} Check that the backend is running, then retry.`;
+      const message = error.message || "Analysis failed.";
+      $("inlineError").textContent = error instanceof TypeError
+        ? `Could not connect to the analysis API. Check that the backend is running, then retry. (${message})`
+        : message;
       $("inlineError").hidden = false;
     } finally {
       $("progressState").hidden = true;

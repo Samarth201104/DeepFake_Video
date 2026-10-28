@@ -37,10 +37,22 @@ def detect():
             upload.save(temporary)
         if temporary_path.stat().st_size == 0:
             return jsonify({"error": "The uploaded file is empty."}), 400
+        current_app.logger.info(
+            "Video analysis started (extension=%s, bytes=%d)",
+            suffix,
+            temporary_path.stat().st_size,
+        )
         result = current_app.extensions["detection_service"].analyze(temporary_path, filename)
+        current_app.logger.info(
+            "Video analysis completed (prediction=%s, frames=%d, faces=%d)",
+            result["prediction"],
+            result["processed_frames"],
+            result["faces_analyzed"],
+        )
         return jsonify(result)
     except DetectionError as error:
         status = 503 if error.code == "model_unavailable" else 422
+        current_app.logger.warning("Video analysis rejected (%s): %s", error.code, error)
         return jsonify({"error": str(error)}), status
     except Exception:
         current_app.logger.exception("Video inference failed")

@@ -76,7 +76,7 @@ class ApiTests(unittest.TestCase):
             content_type="multipart/form-data",
         )
         self.assertEqual(response.status_code, 422)
-        self.assertIn("readable video", response.json["error"])
+        self.assertIn("could not decode this video", response.json["error"])
         response.close()
 
     def test_missing_model_returns_service_unavailable(self):
