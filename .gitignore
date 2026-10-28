@@ -1,30 +1,40 @@
-# Ignore model weights
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Python environments and caches
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# Model weights and caches (download/manage separately)
 *.h5
 *.onnx
 *.pth
+*.pt
+*.pb
+*.tflite
+model_cache/
+.deepface/
 
-# Ignore datasets
+# Datasets, generated frames and reports
 dataset/
 preprocessed/
 preprocessed_split/
 evaluation_results/
-
-# Ignore uploads
 uploads/
 static/uploads/
-
-# Ignore Python virtual environment
-venv/
-
-# Ignore temporary files
-__pycache__/
-*.pyc
-*.pkl
 *.log
+*.pkl
 
-# Ignore VSCode
+# Editors and operating system files
 .vscode/
-
-# Ignore OS files
+.idea/
 .DS_Store
 Thumbs.db
