@@ -1,0 +1,162 @@
+@media(max-width:850px) {
+  .topbar nav {
+    gap:15px
+  }
+  .hero {
+    min-height:460px;
+    gap:20px
+  }
+  .scan-visual {
+    height:335px
+  }
+  .analysis-grid {
+    grid-template-columns:1fr 1fr
+  }
+  .panel {
+    padding:17px
+  }
+  .steps {
+    grid-template-columns:1fr 1fr
+  }
+
+}
+@media(max-width:650px) {
+  .page-width {
+    width:calc(100% - 34px)
+  }
+  .topbar {
+    height:65px;
+    padding:0 17px
+  }
+  .topbar nav {
+    display:none;
+    position:absolute;
+    top:64px;
+    left:0;
+    right:0;
+    padding:12px 19px 19px;
+    background:var(--surface);
+    border-bottom:1px solid var(--line);
+    flex-direction:column;
+    gap:0
+  }
+  .topbar nav.open {
+    display:flex
+  }
+  .topbar nav a {
+    padding:10px 0
+  }
+  .menu-toggle {
+    display:block
+  }
+  .nav-actions {
+    gap:8px
+  }
+  .nav-actions>.button {
+    display:none
+  }
+  .hero {
+    grid-template-columns:1fr;
+    padding-top:48px;
+    padding-bottom:34px;
+    gap:28px
+  }
+  .hero h1 {
+    font-size:48px;
+    letter-spacing:-2.6px;
+    margin-top:16px
+  }
+  .hero-text {
+    font-size:14px
+  }
+  .scan-visual {
+    height:300px
+  }
+  .workspace {
+    padding:42px 0 55px
+  }
+  .section-heading {
+    align-items:start;
+    gap:10px;
+    flex-direction:column
+  }
+  .section-heading h2,.how-section h2 {
+    font-size:27px
+  }
+  .analysis-grid {
+    grid-template-columns:1fr
+  }
+  .panel {
+    padding:18px
+  }
+  .result-panel {
+    min-height:335px
+  }
+  .empty-result {
+    height:232px
+  }
+  .how-section {
+    padding:48px 0
+  }
+  .steps {
+    gap:9px
+  }
+  .steps article {
+    padding:14px;
+    min-height:174px
+  }
+  .about-section {
+    grid-template-columns:48px 1fr;
+    gap:15px;
+    padding:48px 0
+  }
+  .about-mark {
+    font-size:40px
+  }
+  .about-section h2 {
+    font-size:20px
+  }
+  .about-section p {
+    font-size:11px
+  }
+  footer {
+    padding:17px;
+    gap:10px;
+    flex-wrap:wrap
+  }
+  footer>span {
+    order:3;
+    width:100%
+  }
+
+}
+@media(max-width:380px) {
+  .hero h1 {
+    font-size:42px
+  }
+  .hero-actions {
+    gap:13px
+  }
+  .button {
+    padding:12px 13px
+  }
+  .steps {
+    grid-template-columns:1fr
+  }
+  .steps article {
+    min-height:auto
+  }
+  .section-heading h2 {
+    font-size:25px
+  }
+
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*:before,*:after {
+    scroll-behavior:auto!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important
+  }
+
+}

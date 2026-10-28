@@ -1,39 +1,38 @@
-# Local configuration and secrets
+# Local settings and secrets
 .env
 .env.*
 !.env.example
 
 # Python environments and caches
-venv/
 .venv/
+venv/
 env/
 __pycache__/
+**/__pycache__/
 *.py[cod]
 *.pyo
 .pytest_cache/
 .mypy_cache/
 
-# Model weights and caches (download/manage separately)
+# Model weights and generated artifacts
 *.h5
 *.onnx
 *.pth
 *.pt
 *.pb
 *.tflite
+artifacts/models/
+artifacts/evaluation/
+data/processed/
+data/uploads/
+data/raw/*
+!data/raw/fake/
+data/raw/fake/*
+!data/raw/fake/.gitkeep
 model_cache/
 .deepface/
 
-# Datasets, generated frames and reports
-dataset/
-preprocessed/
-preprocessed_split/
-evaluation_results/
-uploads/
-static/uploads/
-*.log
-*.pkl
-
-# Editors and operating system files
+# Editor and operating-system files
 .vscode/
 .idea/
 .DS_Store
